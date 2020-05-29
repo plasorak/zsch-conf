@@ -169,30 +169,30 @@ any() {
 
 # :completion:function:completer:command:argument:tag
 
-zstyle    ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-                                  /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
+# zstyle    ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+#                                   /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
 
 # this will include newly installed programs into tab completion
 _force_rehash() { (( CURRENT == 1 )) && rehash return 1 }
-zstyle    ':completion:*' completers _force_rehash
+# zstyle    ':completion:*' completers _force_rehash
 
-LISTMAX=0       # only ask if completion should be shown if it is larger than our screen
-# this will not complete dotfiles in ~, unless you provide at least .<tab>
-zstyle -e ':completion:*' ignored-patterns 'if [[ $PWD = ~ ]] && [[ ! $words[-1] == .* ]]; then reply=(.*); fi'
-# Don't complete backup files (e.g. 'bin/foo~') as executables
-zstyle    ':completion:*:complete:-command-::commands' ignored-patterns '*\~'
-# color completion
-zstyle    ':completion:*' list-colors ''
-# cache completions (think apt completion)
-zstyle    ':completion:*' use-cache on
-zstyle    ':completion:*' cache-path "$XDG_CACHE_HOME/zsh"
+listmax=0       # only ask if completion should be shown if it is larger than our screen
+# # this will not complete dotfiles in ~, unless you provide at least .<tab>
+# zstyle -e ':completion:*' ignored-patterns 'if [[ $PWD = ~ ]] && [[ ! $words[-1] == .* ]]; then reply=(.*); fi'
+# # Don't complete backup files (e.g. 'bin/foo~') as executables
+# zstyle    ':completion:*:complete:-command-::commands' ignored-patterns '*\~'
+# # color completion
+# zstyle    ':completion:*' list-colors ''
+# # cache completions (think apt completion)
+# zstyle    ':completion:*' use-cache on
+# zstyle    ':completion:*' cache-path "$XDG_CACHE_HOME/zsh"
 
-# correctly color the ls completion
-zstyle    ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# # correctly color the ls completion
+# zstyle    ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-# pretty kill completion. colored, cpu load & process tree
-zstyle    ':completion:*:kill:*' command 'ps xf -u $USER -o pid,%cpu,cmd'
-zstyle    ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+# # pretty kill completion. colored, cpu load & process tree
+# zstyle    ':completion:*:kill:*' command 'ps xf -u $USER -o pid,%cpu,cmd'
+# zstyle    ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
 #vcs_info (needs PROMPT_SUBST set)
 autoload -Uz vcs_info
@@ -202,7 +202,7 @@ zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
 zstyle ':vcs_info:*' enable git svn
 
 # Enable ..<TAB> -> ../
-zstyle ':completion:*' special-dirs true
+# zstyle ':completion:*' special-dirs true
 
 
 # SSH host completion
@@ -238,11 +238,11 @@ export ZSH=/Users/pierrelasorak/.oh-my-zsh
 ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+CASE_SENSITIVE="false"
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="false"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -330,10 +330,10 @@ setopt    hist_ignore_space            # if any command starts with a whitespace
 setopt    hist_verify                  # [unset] when doing history substitution, put the substituted line into the line editor
 # perhaps we want to change HISTCONTROL=ignoredups ?
 
-setopt    auto_remove_slash            # [unset] If a completion ends with a slash and you type another slash, remove one of them
+# setopt    auto_remove_slash            # [unset] If a completion ends with a slash and you type another slash, remove one of them
 setopt    bg_nice                      # [set -6] Renice background jobs
 #setopt    cdablevars
-setopt    auto_param_slash             # [set] append a slash if completion target was a directory
+# setopt    auto_param_slash             # [set] append a slash if completion target was a directory
 setopt    auto_cd                      # [unset] enables you to omit 'cd' before a path
 setopt    correct_all                  # Try to autocorrect commands & file names
 setopt    hash_list_all                # [set] always make sure that the entire command path is hashed
@@ -341,7 +341,7 @@ setopt    short_loops                  # [unset] 'for i in *; echo $i;' instead 
 #setopt globdots                # with this, we could treat dotfiles the same as normal ones
 
 setopt    interactive_comments         # with this, we can do 'some_evil_stuff # which we explain' and just execute some_evil_stuff
-setopt    list_packed                  # [unset] show compact completion list
+# setopt    list_packed                  # [unset] show compact completion list
 setopt    long_list_jobs               # [unset] show job number & PID when suspending
 setopt no_clobber                      # this will probihbit 'cat foo > bar' if bar exists. use >! instead
 setopt    extended_glob                # enables various things, most notably ^negation. '^', '#' and forgotwhich :/ see cheatsheet & http://zsh.dotsrc.org/Intro/intro_2.html#SEC2
@@ -349,7 +349,7 @@ setopt    numeric_glob_sort            # [unset] enables numeric order in globs
 setopt    notify                       # [on] this will put info from finished background processes over the current line
 setopt    function_arg_zero            # [on] this will fill $0 with the function name, not 'zsh'
 # POSIX_BUILTINS                # find out about this one
-setopt    complete_in_word             # [unset] tab completion within words
+# setopt    complete_in_word             # [unset] tab completion within words
 
 setopt    multios                      # this enables various goodness
                                        # ls > foo > bar
@@ -358,7 +358,7 @@ setopt    multios                      # this enables various goodness
 setopt    braceccl                     # {a-z} {0-2} etc expansion
 setopt    prompt_subst                 # allow substition with $PS1, etc. Needed for vcs_info
 
-autoload  compinit;compinit            # this enables autocompletion for pretty much everything
+# autoload  compinit;compinit            # this enables autocompletion for pretty much everything
 autoload  colors                       # use colors
 colors
 autoload  -Uz zmv                      # move function
@@ -373,15 +373,6 @@ typeset WORDCHARS='|'$WORDCHARS
 
 # quick editor commands
 alias zshrc="$EDITOR ~/.zshrc"
-
-# shortcuts
-alias ls='ls --color=auto'
-alias la='ls -a'
-alias ll='ls -l'
-alias lll="ll $* | less -r"
-alias lh='ls -lh'
-alias ld='ls -ld'
-alias l='ll'
 
 # various stuff to make the commands more sane
 alias mv='nocorrect mv -i'      # prompt before overwriting files
@@ -401,29 +392,6 @@ alias s='sync'
 alias dt='dmesg | tail'
 alias dh='df -h'
 alias dm='df -m'
-
-
-# base64 conversion
-alias base64-encode='perl -MMIME::Base64 -e "print encode_base64(<>)" <<<'
-alias base64-decode='perl -MMIME::Base64 -e "print decode_base64(<>)" <<<'
-
-
-
-# display the ten newest files
-alias lsnew="ls -rl *(D.om[1,10])"
-# display the ten oldest files
-alias lsold="ls -rtlh *(D.om[1,10])"
-# display the ten smallest files
-alias lssmall="ls -Srl *(.oL[1,10])"
-
-#ssh & scp without security checks
-alias ssh-noverify='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
-alias scp-noverify='scp -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
-
-# serial console stuff
-alias serial_115200_7bit='screen /dev/ttyUSB0 115200,cs7'
-alias serial_2400_8bit_noflow='screen /dev/ttyUSB0 2400,cs8,ixoff'
-alias serial_9600_8bit='screen /dev/ttyUSB0 9600,cs8'
 
 # named directories
 
@@ -474,8 +442,6 @@ zle -N        history-pattern-search-backward history-pattern-search
 bindkey '^er' history-pattern-search-backward
 
 ## Allow known mime types to be used as 'command'
-autoload -U zsh-mime-setup
-zsh-mime-setup
 
 # Show what the completion system is trying to complete with at a given point
 bindkey '^Xh' _complete_help
@@ -488,8 +454,8 @@ bindkey "^et" tetris ## C-x-t to play
 
 # My own completions
 
-compdef _options toggleopt      # tab completion for toggleopt
-compdef _mkdir   mcd            # tab completion for mcd
+# compdef _options toggleopt      # tab completion for toggleopt
+# compdef _mkdir   mcd            # tab completion for mcd
 
 
 # "alt-h" : run run-help.
@@ -537,4 +503,3 @@ alias nproc='sysctl -n hw.logicalcpu'
 alias python='python3'
 export PYTHIA6_LIBRARY=/Users/pierrelasorak/Documents/ROOT/pythia6/libPythia6.dylib
 export PYTHON_EXECUTABLE=/usr/local/bin/python3
-
