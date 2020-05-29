@@ -188,15 +188,11 @@ zstyle    ':completion:*' use-cache on
 zstyle    ':completion:*' cache-path "$XDG_CACHE_HOME/zsh"
 
 # correctly color the ls completion
-eval $(dircolors)
 zstyle    ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # pretty kill completion. colored, cpu load & process tree
 zstyle    ':completion:*:kill:*' command 'ps xf -u $USER -o pid,%cpu,cmd'
 zstyle    ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-
-# vim completion: complete on aux|dvi|log|idx|pdf|rel|out last
-zstyle     ':completion::*:(vi|vim):*' file-patterns '*.nroff' '*~*.(aux|dvi|log|idx|pdf|rel|out)' '*'
 
 #vcs_info (needs PROMPT_SUBST set)
 autoload -Uz vcs_info
@@ -233,12 +229,58 @@ RPROMPT="%(?..${fg_light_gray}[$fg_red%U%?%u${fg_light_gray}]$fg_no_colour) %h %
 SPROMPT="zsh: correct '%R' to '%r'? [N/y/a/e] "  # the prompt we see when being asked for substitutions
 
 
-PATH+=:/usr/bin
-PATH=/usr/local/bin:$PATH
-[[ -d /usr/lib/ccache ]] && PATH=/usr/lib/ccache:$PATH
-[[ -d ~/.bin ]] && PATH=~/.bin:$PATH
-[[ -d ~/bin ]] && PATH=~/bin:$PATH
-[[ -d /usr/local/vim_extended/bin ]] && PATH=/usr/local/vim_extended/bin:$PATH
+export ZSH=/Users/pierrelasorak/.oh-my-zsh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="agnoster"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+plugins=(git
+	 osx
+	 web-search
+	 colored-man-pages
+	 dash
+	 dircycle
+	)
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
 
 watch=(notme)
 LOGCHECK=300
@@ -248,7 +290,7 @@ HISTFILE=~/.zsh_history
 SAVEHIST=50000
 HISTSIZE=50000
 
-EDITOR="vim"
+EDITOR="emacs"
 
 CORRECT_IGNORE='_*'
 
@@ -272,13 +314,6 @@ else
 fi
 
 [[ -x $(which colordiff) ]] && alias diff=colordiff
-
-([[ -x $(which w3m) ]]       && export BROWSER="w3m")      || \
-([[ -x $(which links2) ]]    && export BROWSER="links2")   || \
-([[ -x $(which elinks) ]]    && export BROWSER="elinks")   || \
-([[ -x $(which lynx) ]]      && export BROWSER="lynx")     || \
-([[ -x $(which links) ]]     && export BROWSER="links")    || \
-echo "WARNING: You do not have any browser installed!"
 
 ([[ -x $(which vimdiff) ]]   && export DIFFER="vimdiff")   || \
 ([[ -x $(which colordiff) ]] && export DIFFER="colordiff") || \
@@ -337,27 +372,9 @@ typeset WORDCHARS='|'$WORDCHARS
 
 
 # quick editor commands
-alias vimrc="$EDITOR ~/.vimrc"
 alias zshrc="$EDITOR ~/.zshrc"
-alias zshrc.staging="$EDITOR ~/.zshrc.staging"
-alias zshrc.local="$EDITOR ~/.zshrc.$HOST"
-
 
 # shortcuts
-alias a='apt'
-alias ai='apt install'
-alias as='apt search'
-alias ass='apt show'
-alias au='apt update'
-alias asu='apt safe-upgrade'
-
-alias afu='apt-file update'
-alias afs='apt-file search'
-alias afsl='apt-file -l search'
-
-#alias a=alias
-alias ua=unalias
-
 alias ls='ls --color=auto'
 alias la='ls -a'
 alias ll='ls -l'
@@ -366,31 +383,14 @@ alias lh='ls -lh'
 alias ld='ls -ld'
 alias l='ll'
 
-alias v='vim'
-
-alias sr='screen -r'
-alias sdr='screen -D -r'
-alias scls='screen -ls'
-alias scdr='screen -dr'
-
-#edit without a trace
-alias vim-noswap='vim -n -i NONE --cmd "setlocal noswapfile" --cmd "set nocompatible" --cmd "set tabstop=4" -u NONE'
-
-alias dd_status='kill -SIGUSR1 $(pidof dd)'
-
 # various stuff to make the commands more sane
 alias mv='nocorrect mv -i'      # prompt before overwriting files
 alias mkdir='nocorrect mkdir'   # don't correct mkdir
 alias man='nocorrect man'
 alias wget='noglob wget'
-alias whois='whois -H'
 alias gpg='gpg --no-use-agent'
 alias grep='grep --color=auto'
 alias scp='noglob scp_wrap'
-alias vimdiff='vimdiff -O2'
-alias mtr='mtr --curses'
-
-alias why='whence -ca'
 
 # useful to see what hogs your disk (this is so i can actually find this damn alias in here: find disk space)
 # this will most likely die soon. ncdu is way better
@@ -402,8 +402,6 @@ alias dt='dmesg | tail'
 alias dh='df -h'
 alias dm='df -m'
 
-# ebg13 vf frpher
-alias rot13='tr a-zA-Z n-za-mN-ZA-M <<<'
 
 # base64 conversion
 alias base64-encode='perl -MMIME::Base64 -e "print encode_base64(<>)" <<<'
@@ -426,45 +424,6 @@ alias scp-noverify='scp -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/de
 alias serial_115200_7bit='screen /dev/ttyUSB0 115200,cs7'
 alias serial_2400_8bit_noflow='screen /dev/ttyUSB0 2400,cs8,ixoff'
 alias serial_9600_8bit='screen /dev/ttyUSB0 9600,cs8'
-
-# git stuff
-alias gcd='git checkout'
-
-# global aliases. use with care!
-alias -g C='| wc -l'
-alias -g N='1>/dev/null 2>/dev/null'
-alias -g E='| egrep'
-alias -g G='| grep -i'
-alias -g GV='| grep -iv'
-alias -g H='| head'
-alias -g H1='| head -n1'
-alias -g H5='| head -n5'
-alias -g H10='| head -n10'
-alias -g T='| tail'
-alias -g T1='| tail -n1'
-alias -g T5='| tail -n5'
-alias -g T10='| tail -n10'
-alias -g L='| $PAGER'
-alias -g V='| vim -'
-alias -g X='| xargs'
-alias -g      ...=../..
-alias -g     ....=../../..
-alias -g    .....=../../../..
-alias -g   ......=../../../../..
-alias -g  .......=../../../../../..
-alias -g ........=../../../../../../..
-
-alias -g S='| sort'
-alias -g SN='| sort -n'
-alias -g SNR='| sort -nr'
-alias -g SHR='| sort -Hr'
-
-alias -g A='| awk '
-alias -g A1="| awk '{print \$1}'"
-alias -g A2="| awk '{print \$2}'"
-alias -g A3="| awk '{print \$3}'"
-alias -g A4="| awk '{print \$4}'"
-alias -g A5="| awk '{print \$5}'"
 
 # named directories
 
@@ -545,3 +504,37 @@ startup
 foreach dotfile (/etc/zsh/local ~/.zshrc.local ~/.zshrc.$HOST ~/.zshrc.$USER); do
 	if [[ -r $dotfile ]]; then; echo "Sourcing $dotfile"; source $dotfile; fi
 done
+
+alias zshconfig="emacs ~/.zshrc"
+alias ohmyzsh="emacs ~/.oh-my-zsh"
+
+alias root="root -l"
+alias r="root -l"
+
+alias rm="rm -i"
+alias le="less"
+alias l="ls -a -l -h"
+
+alias clean='rm -f *~; rm -f \#*#; rm -f .#*'
+alias rm='rm -i'
+alias rmrf='rm -rf'
+alias du='du -hs'export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+# export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+alias maken='make -j`nproc`'
+export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=1
+source ~/.iterm2_shell_integration.zsh
+
+function rename_tab {
+    echo "Renaming current tab to $@"
+}
+
+alias l='/bin/ls -lh'
+alias la='/bin/ls -A'
+alias lrt='/bin/ls -lhrt'
+alias lrtr='/bin/ls -lhrt *.root'
+alias ls='/bin/ls -CF'
+alias nproc='sysctl -n hw.logicalcpu'
+alias python='python3'
+export PYTHIA6_LIBRARY=/Users/pierrelasorak/Documents/ROOT/pythia6/libPythia6.dylib
+export PYTHON_EXECUTABLE=/usr/local/bin/python3
+
