@@ -5,7 +5,7 @@ READNULLCMD=${PAGER:-/usr/bin/pager}
 XDG_CONFIG_HOME="$HOME/.config"
 XDG_CACHE_HOME="$HOME/.cache"
 
-export ZSH=/Users/pierrelasorak/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -92,11 +92,18 @@ alias clean='rm -f *~; rm -f \#*#; rm -f .#*'
 alias rm='rm -i'
 alias rmrf='rm -rf'
 alias du='du -hs'
-export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+if [ -e /usr/local/opt/python@3.8 ]; then
+    export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+    export PYTHON_EXECUTABLE=/usr/local/bin/python3
+
+fi
 # export PATH="/usr/local/opt/python@3.8/bin:$PATH"
 alias maken='make -j`nproc`'
-export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=1
-source ~/.iterm2_shell_integration.zsh
+
+if [ -e $HOME/.iterm2_shell_integration.zsh ]; then
+    export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=1
+    source $HOME/.iterm2_shell_integration.zsh
+fi
 
 function rename_tab {
     echo "Renaming current tab to $@"
@@ -109,5 +116,6 @@ alias lrtr='/bin/ls -lhrt *.root'
 alias ls='/bin/ls -CF'
 alias nproc='sysctl -n hw.logicalcpu'
 alias python='python3'
-export PYTHIA6_LIBRARY=/Users/pierrelasorak/Documents/ROOT/pythia6/libPythia6.dylib
-export PYTHON_EXECUTABLE=/usr/local/bin/python3
+if [ -e /Users/pierrelasorak/Documents/ROOT/pythia6/libPythia6.dylib ]; then
+    export PYTHIA6_LIBRARY=/Users/pierrelasorak/Documents/ROOT/pythia6/libPythia6.dylib
+fi
