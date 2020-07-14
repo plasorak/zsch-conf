@@ -105,9 +105,21 @@ if [ -e $HOME/.iterm2_shell_integration.zsh ]; then
     source $HOME/.iterm2_shell_integration.zsh
 fi
 
+# Disable globbing on the remote path.
+alias scp='noglob scp_wrap'
+function scp_wrap {
+  local -a args
+  local i
+  for i in "$@"; do case $i in
+    (*:*) args+=($i) ;;
+    (*) args+=(${~i}) ;;
+  esac; done
+  command scp "${(@)args}"
+}
 function rename_tab {
     echo "Renaming current tab to $@"
 }
+alias start_apache='sudo /opt/lampp/manager-linux-x64.run'
 
 alias l='/bin/ls -lh'
 alias la='/bin/ls -A'
@@ -116,6 +128,10 @@ alias lrtr='/bin/ls -lhrt *.root'
 alias ls='/bin/ls -CF'
 alias nproc='sysctl -n hw.logicalcpu'
 alias python='python3'
+if [ -e ${HOME}/root/bin/thisroot.sh]; then
+    source ${HOME}/root/bin/thisroot.sh
+fi
+
 if [ -e /Users/pierrelasorak/Documents/ROOT/pythia6/libPythia6.dylib ]; then
     export PYTHIA6_LIBRARY=/Users/pierrelasorak/Documents/ROOT/pythia6/libPythia6.dylib
 fi
